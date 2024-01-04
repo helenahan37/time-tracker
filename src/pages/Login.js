@@ -23,7 +23,7 @@ const Login = () => {
 		setError(null);
 		try {
 			//make request to firebase
-			createUserWithEmailAndPassword(auth, email, password);
+			await createUserWithEmailAndPassword(auth, email, password);
 			alert('Account created successfully');
 			navigate('/reports');
 		} catch (error) {
@@ -37,8 +37,7 @@ const Login = () => {
 		setError(null);
 		try {
 			//make request to firebase
-			const user = signInWithEmailAndPassword(auth, email, password);
-			console.log(user);
+			await signInWithEmailAndPassword(auth, email, password);
 			alert('Login successfully');
 			navigate('/reports');
 		} catch (error) {
@@ -90,18 +89,19 @@ const Login = () => {
 						</div>
 
 						<div>
-							{/* Error here */}
+							{error && <p className="text-red-500 text-sm">{error}</p>}{' '}
 							<button
+								disabled={registerLoading}
 								onClick={signUp}
 								type="button"
 								className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-								Register
+								{registerLoading ? 'Loading...' : 'Register'}
 							</button>
 							<button
 								onClick={logIn}
 								type="button"
 								className="w-full flex mt-3 justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-pink-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-								Login
+								{loginLoading ? 'Loading...' : 'Login'}
 							</button>
 						</div>
 					</form>
