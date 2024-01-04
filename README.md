@@ -6,7 +6,7 @@ A react time-tracker app
 
 1. Styling: tailwind css
 2. Navigation: react-router dom
-3. # Backend: Firebase
+3. Backend: Firebase
 
 # Getting Started with Create React App
 
