@@ -55,7 +55,7 @@ const Homepage = () => {
 				</div>
 			</section>
 			{/* How it works */}
-			<section className="relative pt-16 lg:pb-16 bg-gray-50 overflow-hidden">
+			<section className="relative pt-16 lg:pb-16 overflow-hidden">
 				<img className="hidden lg:block absolute top-0 right-0 h-full w-1/2 object-cover" src={work} alt="work" />
 				<div className="container px-4 mx-auto">
 					<div className="w-full lg:w-1/2">
