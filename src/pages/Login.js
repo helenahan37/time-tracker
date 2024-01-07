@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import {
+	createUserWithEmailAndPassword,
+	getAuth,
+	signInWithEmailAndPassword,
+	GoogleAuthProvider,
+	signInWithPopup,
+} from 'firebase/auth';
 import { FcGoogle } from 'react-icons/fc';
 import app from '../firebase/config';
 import { useNavigate } from 'react-router';
@@ -16,7 +22,8 @@ const Login = () => {
 
 	//navigate instance
 	const navigate = useNavigate();
-
+	//google login instance
+	const provider = new GoogleAuthProvider();
 	// register
 	const signUp = async () => {
 		setRegisterLoading(true);
@@ -38,6 +45,20 @@ const Login = () => {
 		try {
 			//make request to firebase
 			await signInWithEmailAndPassword(auth, email, password);
+			alert('Login successfully');
+			navigate('/reports');
+		} catch (error) {
+			setError(error.message);
+		}
+	};
+
+	// login with google email
+	const googleSignIn = async () => {
+		setLoginLoading(true);
+		setError(null);
+		try {
+			//make request to firebase
+			await signInWithPopup(auth, provider);
 			alert('Login successfully');
 			navigate('/reports');
 		} catch (error) {
@@ -119,6 +140,8 @@ const Login = () => {
 						<div className="mt-6 grid grid-cols-1 gap-3">
 							<div>
 								<button
+									disable={loginLoading}
+									onClick={googleSignIn}
 									type="button"
 									className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
 									<FcGoogle className=" h-5 w-auto text-center" />
