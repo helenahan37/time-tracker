@@ -26,8 +26,8 @@ function CreateTaskPage() {
 			setLoading(true);
 			setError('  ');
 			setSuccess(false);
-			//save task into db
-			addDoc = collection(db, 'tasks', {
+			// Save task into db
+			addDoc(collection(db, 'tasks'), {
 				task: task.trim(),
 				status: 'unstarted',
 				startTime: null,
@@ -36,11 +36,14 @@ function CreateTaskPage() {
 			});
 			setSuccess(true);
 			setTask('');
-			navigate('/reports');
+			// navigate('/reports');
 		} catch (error) {
-			setError('Error adding task:' + error.message);
+			setError('Error adding task: ' + error.message);
+		} finally {
+			setLoading(false);
 		}
 	};
+
 	return (
 		<div className="bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 min-h-screen flex items-center justify-center">
 			<div className="bg-white bg-opacity-10 p-10 rounded-lg backdrop-filter backdrop-blur-lg shadow-lg max-w-md w-full">
@@ -51,12 +54,14 @@ function CreateTaskPage() {
 				<p className="text-white text-opacity-80 mb-8">
 					Turn your plans into achievable tasks. Start by naming your task below.
 				</p>
-				<form>
+				<form onSubmit={handleSubmit}>
 					<div className="mb-8">
 						<label htmlFor="task" className="block font-bold text-white mb-2">
 							Task description
 						</label>
 						<input
+							value={task}
+							onChange={(e) => setTask(e.target.value)}
 							type="text"
 							id="task"
 							required
@@ -70,11 +75,14 @@ function CreateTaskPage() {
 					</div>
 					<div className="flex justify-end">
 						<button
+							disable={loading}
 							type="submit"
 							className="w-full bg-gradient-to-r from-pink-500 to-purple-500 bg-opacity-50 hover:bg-opacity-75 text-white py-3 px-6 rounded focus:outline-none focus:ring-2 focus:ring-white">
-							Create Task
+							{loading ? 'Loading please wait' : 'Create Task'}{' '}
 						</button>
 					</div>
+					{error && <p className="text-red-500 text-sm mt-2">{error}</p>}
+					{success && <p className="text-white text-sm mt-2">Congratulations, task created successfully</p>}
 				</form>
 			</div>
 		</div>
