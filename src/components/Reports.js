@@ -3,7 +3,7 @@ import { AiOutlineLogout } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 import { getAuth } from 'firebase/auth';
 import app from '../firebase/config';
-import { collection, getFirestore, query, where } from 'firebase/firestore';
+import { collection, getFirestore, onSnapshot, query, where } from 'firebase/firestore';
 import Task from './Task';
 
 //create auth instance
@@ -30,6 +30,20 @@ function Reports() {
 				if (auth.currentUser) {
 					//make query
 					const firebaseQuery = query(collection(db, 'tasks'), where('userId', '==', auth.currentUser.uid));
+
+					//onSnapshot
+					const unSubscribe = onSnapshot(firebaseQuery, (querySnapshot) => {
+						//fetch data from firestore
+						setTasks(
+							querySnapshot.docs.map((doc) => {
+								return {
+									...doc.data(),
+									id: doc.id,
+									date: new Date(doc.data().startTime).toISOString(),
+								};
+							})
+						);
+					});
 				} else {
 					setError('Please sign in to continue');
 					setLoading(false);
@@ -94,11 +108,11 @@ function Reports() {
 						</button>
 					</div>
 
-					{/* <div className="space-y-4">
-						{[1, 2, 3].map(() => (
-							<Task />
+					<div className="space-y-4">
+						{tasks.map((task) => (
+							<Task key={task.id} task={task} />
 						))}
-					</div> */}
+					</div>
 				</div>
 			</div>
 		</div>

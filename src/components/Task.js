@@ -3,14 +3,14 @@ import React, { useEffect, useState } from 'react';
 import { BsCircleFill } from 'react-icons/bs';
 import { AiOutlineEdit, AiOutlineDelete, AiOutlineCalendar } from 'react-icons/ai';
 
-function Task() {
+function Task({ task }) {
 	return (
 		<div className="bg-white p-4 rounded-md text-black shadow-lg flex flex-col md:flex-row md:items-center justify-between">
 			<div className="md:space-x-2 space-y-2 md:space-y-0">
 				{/* render buttons */}
 				<div className="flex items-center space-x-2">
 					<AiOutlineCalendar className="text-gray-600" />
-					<p className="text-gray-600">2-2-2-2</p>
+					<p className="text-gray-600">{task.task}</p>
 				</div>
 			</div>
 			<div className="flex items-center space-x-2 justify-center">
