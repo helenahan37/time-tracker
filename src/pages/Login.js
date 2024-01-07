@@ -5,6 +5,7 @@ import {
 	signInWithEmailAndPassword,
 	GoogleAuthProvider,
 	signInWithPopup,
+	onAuthStateChanged,
 } from 'firebase/auth';
 import { FcGoogle } from 'react-icons/fc';
 import app from '../firebase/config';
@@ -65,6 +66,17 @@ const Login = () => {
 			setError(error.message);
 		}
 	};
+
+	//check if user is logged in and redirect
+	useEffect(() => {
+		const unSubscribe = onAuthStateChanged(auth, (user) => {
+			if (user) {
+				navigate('/reports');
+			}
+		});
+		//clean up
+		return () => unSubscribe();
+	}, [navigate]);
 
 	return (
 		<div className="min-h-screen bg-gray-100 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
