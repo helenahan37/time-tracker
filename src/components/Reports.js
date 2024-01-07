@@ -1,9 +1,51 @@
 import React, { useEffect, useState } from 'react';
 import { AiOutlineLogout } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
+import { getAuth } from 'firebase/auth';
+import app from '../firebase/config';
+import { collection, getFirestore, query, where } from 'firebase/firestore';
 import Task from './Task';
 
+//create auth instance
+const auth = getAuth(app);
+//create database instance
+const db = getFirestore(app);
+
 function Reports() {
+	//track the state of the tasks
+	const [loaindg, setLoading] = useState(true);
+	const [error, setError] = useState(null);
+	const [tasks, setTasks] = useState([]);
+	const [thisWeekTotal, setThisWeekTotal] = useState(0);
+	const [thisMonthTotal, setThisMonthTotal] = useState(0);
+	const [totalTime, setTotalTime] = useState(0);
+
+	//Fetch all tasks
+	useEffect(() => {
+		const fetchData = () => {
+			try {
+				setLoading(true);
+				setError(null);
+				//check if user is logged in
+				if (auth.currentUser) {
+					//make query
+					const firebaseQuery = query(collection(db, 'tasks'), where('userId', '==', auth.currentUser.uid));
+				} else {
+					setError('Please sign in to continue');
+					setLoading(false);
+				}
+			} catch (error) {
+				setError(error.message);
+				setLoading(false);
+			}
+		};
+		const unSubscribe = fetchData();
+		return () => {
+			if (unSubscribe) {
+				unSubscribe();
+			}
+		};
+	}, []);
 	return (
 		<div className="min-h-screen bg-gradient-to-r from-green-400 to-blue-500">
 			<div className="container mx-auto px-4 py-10">
@@ -52,11 +94,11 @@ function Reports() {
 						</button>
 					</div>
 
-					<div className="space-y-4">
+					{/* <div className="space-y-4">
 						{[1, 2, 3].map(() => (
 							<Task />
 						))}
-					</div>
+					</div> */}
 				</div>
 			</div>
 		</div>
