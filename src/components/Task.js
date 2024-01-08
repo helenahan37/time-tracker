@@ -1,12 +1,18 @@
 import React, { useEffect, useState } from 'react';
 
 import { BsCircleFill } from 'react-icons/bs';
-import { AiOutlineEdit, AiOutlineDelete, AiOutlineCalendar } from 'react-icons/ai';
-
+import {
+	AiOutlineEdit,
+	AiOutlineDelete,
+	AiOutlineCalendar,
+	AiOutlinePlayCircle,
+	AiOutlinePauseCircle,
+	AiOutlineReload,
+} from 'react-icons/ai';
 function Task({ task }) {
-	const [localState, setLocalState] = useState(task);
+	const [localTask, setLocalTask] = useState(task);
 	const [isEditing, setIsEditing] = useState(false);
-	const [newTaskDescription, setNewTaskDescription] = useState(localState.task);
+	const [newTaskDescription, setNewTaskDescription] = useState(localTask.task);
 	//handle editing
 	const handleEdit = () => {
 		setIsEditing(true);
@@ -16,7 +22,7 @@ function Task({ task }) {
 	const handleCancelEdit = () => {
 		setIsEditing(false);
 		// no need to change task description
-		setNewTaskDescription(localState.task);
+		setNewTaskDescription(localTask.task);
 	};
 	//handle update
 	const handleUpdate = () => {};
@@ -34,7 +40,19 @@ function Task({ task }) {
 	const handleDelete = () => {};
 
 	//handle render buttons
-	const handleRenderButtons = () => {};
+	const handleRenderButtons = () => {
+		switch (localTask.status) {
+			case 'unstarted':
+				return <AiOutlinePlayCircle className="text-2xl text-purple-400 cursor-pointer" onClick={handleStart} />;
+
+			case 'in progress':
+				return <AiOutlinePauseCircle className="text-2xl text-green-400 cursor-pointer" onClick={handlePause} />;
+
+			default:
+			case 'unstarted':
+				return <AiOutlineReload className="text-2xl text-green-400 cursor-pointer" onClick={handleStart} />;
+		}
+	};
 
 	return (
 		<div className="bg-white p-4 rounded-md text-black shadow-lg flex flex-col md:flex-row md:items-center justify-between">
@@ -50,7 +68,7 @@ function Task({ task }) {
 				<p>status</p>
 			</div>
 			<div className="flex items-center space-x-2 justify-center md:justify-end">
-				{/* Render buttons */}
+				{handleRenderButtons()}
 				<AiOutlineEdit className="text-2xl text-purple-400" />
 				<AiOutlineDelete className="text-2xl text-red-500" />
 			</div>
