@@ -9,6 +9,14 @@ import {
 	AiOutlinePauseCircle,
 	AiOutlineReload,
 } from 'react-icons/ai';
+
+import app from '../firebase/config';
+import { getFirestore, onSnapshot, updateDoc, doc } from 'firebase/firestore';
+import { format } from 'date-fns';
+
+//create firebase instance
+const db = getFirestore(app);
+
 function Task({ task }) {
 	const [localTask, setLocalTask] = useState(task);
 	const [isEditing, setIsEditing] = useState(false);
@@ -24,17 +32,58 @@ function Task({ task }) {
 		// no need to change task description
 		setNewTaskDescription(localTask.task);
 	};
-	//handle update
-	const handleUpdate = () => {};
+	//handle paused
+	const handlePause = async () => {
+		try {
+			const elapsedTime = localTask.startTime ? Date.now() - localTask.startTime : 0;
+			const newTotalTime = (localTask.totalTime || 0) + elapsedTime;
+
+			await updateDoc(doc(db, 'tasks', localTask.id), {
+				status: 'paused',
+				endTime: Date.now(),
+				totalTime: newTotalTime,
+			});
+			const taskDoc = doc(db, 'tasks', localTask.id);
+			onSnapshot(taskDoc, (doc) => {
+				if (doc.exists()) {
+					setLocalTask({
+						...doc.data(),
+						date: localTask.date,
+						id: localTask.id,
+					});
+				}
+			});
+		} catch (error) {
+			console.log('Error:', error.message);
+		}
+	};
 
 	//handle render task description
 	const renderTaskDescription = () => {};
 
 	//handle start
-	const handleStart = () => {};
+	const handleStart = async () => {
+		try {
+			await updateDoc(doc(db, 'tasks', localTask.id), {
+				status: 'in progress',
+				startTime: Date.now(),
+			});
 
-	//handle pause
-	const handlePause = () => {};
+			//listen for changes
+			const taskDoc = doc(db, 'tasks', localTask.id);
+			onSnapshot(taskDoc, (doc) => {
+				if (doc.exists()) {
+					setLocalTask({
+						...doc.data(),
+						id: doc.id,
+						date: new Date(doc.data().startTime).toISOString(),
+					});
+				}
+			});
+		} catch (error) {
+			console.log('Error:', error.message);
+		}
+	};
 
 	//handle delete
 	const handleDelete = () => {};
@@ -49,6 +98,7 @@ function Task({ task }) {
 				return <AiOutlinePauseCircle className="text-2xl text-green-400 cursor-pointer" onClick={handlePause} />;
 
 			default:
+			// eslint-disable-next-line no-duplicate-case
 			case 'unstarted':
 				return <AiOutlineReload className="text-2xl text-green-400 cursor-pointer" onClick={handleStart} />;
 		}
@@ -57,15 +107,18 @@ function Task({ task }) {
 	return (
 		<div className="bg-white p-4 rounded-md text-black shadow-lg flex flex-col md:flex-row md:items-center justify-between">
 			<div className="md:space-x-2 space-y-2 md:space-y-0">
-				{/* render buttons */}
+				{/* render description */}
 				<div className="flex items-center space-x-2">
 					<AiOutlineCalendar className="text-gray-600" />
+					<p className="text-gray-600">{format(new Date(localTask.date), 'do MMM yyyy')}</p>
 					<p className="text-gray-600">{task.task}</p>
 				</div>
 			</div>
 			<div className="flex items-center space-x-2 justify-center">
-				<BsCircleFill />
-				<p>status</p>
+				<BsCircleFill
+					color={localTask.status === 'unstarted' ? 'gray' : localTask.status === 'in progress' ? 'green' : 'red'}
+				/>
+				<p>{localTask.status}</p>
 			</div>
 			<div className="flex items-center space-x-2 justify-center md:justify-end">
 				{handleRenderButtons()}
