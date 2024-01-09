@@ -9,7 +9,7 @@ import {
 	AiOutlinePauseCircle,
 	AiOutlineReload,
 } from 'react-icons/ai';
-
+import { FaCheck, FaTimes } from 'react-icons/fa';
 import app from '../firebase/config';
 import { getFirestore, onSnapshot, updateDoc, doc } from 'firebase/firestore';
 import { format } from 'date-fns';
@@ -59,7 +59,20 @@ function Task({ task }) {
 	};
 
 	//handle render task description
-	const renderTaskDescription = () => {};
+	const renderTaskDescription = () => {
+		if (isEditing) {
+			return (
+				<div className="flex space-x-2">
+					<input
+						value={newTaskDescription}
+						onChange={(e) => setNewTaskDescription(e.target.value)}
+						className="border border-purple-300 rounded px-2 py-2"
+					/>
+				</div>
+			);
+		}
+		return <p className="text-gray-600">{task.task}</p>;
+	};
 
 	//handle start
 	const handleStart = async () => {
@@ -107,11 +120,10 @@ function Task({ task }) {
 	return (
 		<div className="bg-white p-4 rounded-md text-black shadow-lg flex flex-col md:flex-row md:items-center justify-between">
 			<div className="md:space-x-2 space-y-2 md:space-y-0">
-				{/* render description */}
+				{renderTaskDescription()}
 				<div className="flex items-center space-x-2">
 					<AiOutlineCalendar className="text-gray-600" />
 					<p className="text-gray-600">{format(new Date(localTask.date), 'do MMM yyyy')}</p>
-					<p className="text-gray-600">{task.task}</p>
 				</div>
 			</div>
 			<div className="flex items-center space-x-2 justify-center">
@@ -122,7 +134,7 @@ function Task({ task }) {
 			</div>
 			<div className="flex items-center space-x-2 justify-center md:justify-end">
 				{handleRenderButtons()}
-				<AiOutlineEdit className="text-2xl text-purple-400" />
+				<AiOutlineEdit onClick={handleEdit} className="text-2xl text-purple-400" />
 				<AiOutlineDelete className="text-2xl text-red-500" />
 			</div>
 		</div>
