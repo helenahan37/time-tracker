@@ -58,16 +58,30 @@ function Task({ task }) {
 		}
 	};
 
+	//handle task update
+	const handleUpdate = async () => {
+		try {
+			await updateDoc(doc(db, 'tasks', localTask.id), {
+				task: newTaskDescription,
+			});
+			//Update the state
+			setLocalTask((prevSate) => ({ ...prevSate, task: newTaskDescription }));
+			setIsEditing(false);
+		} catch (error) {}
+	};
+
 	//handle render task description
 	const renderTaskDescription = () => {
 		if (isEditing) {
 			return (
-				<div className="flex space-x-2">
+				<div className="flex space-x-2 items-center">
 					<input
 						value={newTaskDescription}
 						onChange={(e) => setNewTaskDescription(e.target.value)}
 						className="border border-purple-300 rounded px-2 py-2"
 					/>
+					<FaCheck onClick={handleUpdate} className="text-green-400 cursor-pointer" />
+					<FaTimes onClick={handleCancelEdit} className="text-red-400 cursor-pointer" />
 				</div>
 			);
 		}
