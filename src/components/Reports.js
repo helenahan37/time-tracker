@@ -117,11 +117,11 @@ function Reports() {
 				<div className="bg-white p-4 my-6 rounded-md text-black max-w-md mx-auto">
 					<h2 className="text-lg font-semibold mb-2">User Profile</h2>
 					<div className="flex items-center">
-						<img className="h-16 w-16 rounded-full" src="" alt="profile" />
+						<img className="h-16 w-16 rounded-full" src={auth.currentUser.photoURL} alt="profile" />
 						<div className="ml-4">
-							<h3 className="text-lg font-semibold">Username</h3>
-							<p className="text-gray-600">Email</p>
-							<p className="text-gray-600">Last Login</p>
+							<h3 className="text-lg font-semibold">{auth.currentUser.displayName || 'user name'}</h3>
+							<p className="text-gray-600">{auth.currentUser.email}</p>
+							<p className="text-gray-600">Last Login:{auth.currentUser.metadata.lastSignInTime}</p>
 						</div>
 					</div>
 				</div>
