@@ -26,10 +26,9 @@ const Homepage = () => {
 										Start taking control of your time today!
 									</Link>
 									<Link
-										to={'/register'}
-										className="inline-block w-full sm:w-auto py-4 px-6 mb-4 sm:mb-0 sm:mr-4 text-center font-heading font-medium text-base text-white bg-red-500 hover:bg-green-600 border border-green-500 hover:border-green-600 rounded-sm transition duration-200"
-										href="#">
-										Enroll Now
+										to={'/login'}
+										className="inline-block w-full sm:w-auto py-4 px-6 mb-4 sm:mb-0 sm:mr-4 text-center font-heading font-medium text-base text-white bg-red-500 hover:bg-green-600 border border-green-500 hover:border-green-600 rounded-sm transition duration-200">
+										Register
 									</Link>
 								</div>
 							</div>
@@ -38,7 +37,7 @@ const Homepage = () => {
 							<img className="block mx-auto xl:mx-0" src={task} alt="task" />
 						</div>
 					</div>
-					<a className="inline-block text-gray-900" href="#">
+					<a className="inline-block text-gray-900" href="#features">
 						<svg width={26} height={30} viewBox="0 0 26 30" fill="none" xmlns="http://www.w3.org/2000/svg">
 							<path
 								d="M13 1V29M13 29L25 17M13 29L1 17"
@@ -55,7 +54,7 @@ const Homepage = () => {
 				</div>
 			</section>
 			{/* How it works */}
-			<section className="relative pt-16 lg:pb-16 overflow-hidden">
+			<section id="features" className="relative pt-16 lg:pb-16 overflow-hidden">
 				<div className="container px-4 mx-auto">
 					<div className="flex flex-wrap -mx-4 items-center">
 						<div className="w-full lg:w-1/2 px-4">

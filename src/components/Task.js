@@ -11,7 +11,7 @@ import {
 } from 'react-icons/ai';
 import { FaCheck, FaTimes } from 'react-icons/fa';
 import app from '../firebase/config';
-import { getFirestore, onSnapshot, updateDoc, doc } from 'firebase/firestore';
+import { getFirestore, onSnapshot, updateDoc, doc, deleteDoc } from 'firebase/firestore';
 import { format } from 'date-fns';
 
 //create firebase instance
@@ -113,7 +113,14 @@ function Task({ task }) {
 	};
 
 	//handle delete
-	const handleDelete = () => {};
+	const handleDelete = async () => {
+		try {
+			await deleteDoc(doc(db, 'tasks', localTask.id));
+			alert('Task deleted successfully');
+		} catch (error) {
+			alert('Task deleted error' + error.message);
+		}
+	};
 
 	//handle render buttons
 	const handleRenderButtons = () => {
@@ -125,7 +132,6 @@ function Task({ task }) {
 				return <AiOutlinePauseCircle className="text-2xl text-green-400 cursor-pointer" onClick={handlePause} />;
 
 			default:
-			// eslint-disable-next-line no-duplicate-case
 			case 'unstarted':
 				return <AiOutlineReload className="text-2xl text-green-400 cursor-pointer" onClick={handleStart} />;
 		}
@@ -149,7 +155,7 @@ function Task({ task }) {
 			<div className="flex items-center space-x-2 justify-center md:justify-end">
 				{handleRenderButtons()}
 				<AiOutlineEdit onClick={handleEdit} className="text-2xl text-purple-400" />
-				<AiOutlineDelete className="text-2xl text-red-500" />
+				<AiOutlineDelete onClick={handleDelete} className="text-2xl text-red-500 cursor-pointer" />
 			</div>
 		</div>
 	);

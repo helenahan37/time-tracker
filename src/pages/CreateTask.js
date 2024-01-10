@@ -36,7 +36,7 @@ function CreateTaskPage() {
 			});
 			setSuccess(true);
 			setTask('');
-			// navigate('/reports');
+			navigate('/reports');
 		} catch (error) {
 			setError('Error adding task: ' + error.message);
 		} finally {

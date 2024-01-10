@@ -6,6 +6,7 @@ import app from '../firebase/config';
 import { collection, getFirestore, onSnapshot, query, where } from 'firebase/firestore';
 import Task from './Task';
 import { startOfWeek, endOfDay, startOfMonth, endOfMonth, isWithinInterval, addMilliseconds, format } from 'date-fns';
+import ErrorComponent from './ErrorComponent';
 
 //create auth instance
 const auth = getAuth(app);
@@ -54,6 +55,7 @@ function Reports() {
 								if (isWithinInterval(taskStartTime, { start: weekStart, end: weekEnd })) {
 									weekTotal += taskDuration;
 								}
+
 								if (
 									isWithinInterval(taskStartTime, {
 										start: monthStart,
@@ -108,31 +110,48 @@ function Reports() {
 
 	//export data
 	const exportTasks = () => {
-		const exportData = tasks.map((task) => {
-			return {
-				name: task.task,
-				date: format(new Date(task.date), 'do MMM yyy'),
-				status: task.status,
-			};
-		});
-		//convert data to csv file
-		const csvFile = 'data:text/csv;charset=utf-8,' + exportData.map((row) => Object.values(row).join(',')).join('\n');
+		try {
+			if (tasks.length === 0) {
+				throw new Error('No tasks to export');
+			}
+			const exportData = tasks.map((task) => {
+				return {
+					name: task.task,
+					date: format(new Date(task.date), 'do MMM yyyy'),
+					status: task.status,
+				};
+			});
+			//convert data to csv file
+			const csvFile = 'data:text/csv;charset=utf-8,' + exportData.map((row) => Object.values(row).join(',')).join('\n');
 
-		// create download link
-		const link = document.createElement('a');
-		link.href = encodeURI(csvFile);
-		//new tab
-		link.target = '_blank';
-		link.download = 'tasks.csv';
-		link.click();
+			// create download link
+			const link = document.createElement('a');
+			link.href = encodeURI(csvFile);
+			//new tab
+			link.target = '_blank';
+			link.download = 'tasks.csv';
+			link.click();
+		} catch (error) {
+			setError(error.message);
+		}
 	};
+
+	//logout
+	const handleLogout = () => {
+		auth.signOut();
+	};
+
+	if (error) {
+		return <ErrorComponent error={error} />;
+	}
+
 	return (
 		<div className="min-h-screen bg-gradient-to-r from-green-400 to-blue-500">
 			<div className="container mx-auto px-4 py-10">
 				<header className="flex justify-between py-6">
 					<h1 className="text-4xl font-bold text-white">Time Tracker</h1>
 					<button className="text-white" title="Logout">
-						<AiOutlineLogout className="text-2xl" />
+						<AiOutlineLogout onClick={handleLogout} className="text-2xl" />
 					</button>
 				</header>
 				<div className="bg-white p-4 my-6 rounded-md text-black max-w-md mx-auto">
