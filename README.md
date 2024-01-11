@@ -2,6 +2,10 @@
 
 A React time-tracker application, utilizing Firebase and ReactJS, which enables users to log task duration by adjusting task statuses. This application employs Firebase as its backend to handle customer authentication and manage real-time databases, utilizing Firebase's CRUD operations.
 
+# Deploy Link
+
+## https://yoyotasktracker.netlify.app/
+
 # tech track
 
 1. Styling: tailwind css
