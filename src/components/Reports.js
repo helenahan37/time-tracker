@@ -8,6 +8,7 @@ import app from '../firebase/config';
 import { collection, getFirestore, onSnapshot, query, where } from 'firebase/firestore';
 import Task from './Task';
 import { startOfWeek, endOfDay, startOfMonth, endOfMonth, isWithinInterval, addMilliseconds, format } from 'date-fns';
+
 import background from '../images/background.jpg';
 //create auth instance
 const auth = getAuth(app);
@@ -111,12 +112,16 @@ function Reports() {
 		};
 	}, []);
 
-	//format time
 	const formatTime = (time) => {
-		const date = addMilliseconds(new Date(0), time);
+		// Subtract 10 hours (36,000,000 milliseconds) from the time
+		const adjustedTime = time - 36000000;
+
+		// Create a new Date object with the adjusted time
+		const date = addMilliseconds(new Date(0), adjustedTime);
+
+		// Format the date as a time string in 'HH:mm:ss' format
 		return format(date, 'HH:mm:ss');
 	};
-
 	//export data
 	const exportTasks = () => {
 		try {
