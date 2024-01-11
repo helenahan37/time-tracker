@@ -52,7 +52,7 @@ const Login = () => {
 			navigate('/reports');
 		} catch (error) {
 			toast.error(error.message);
-			setRegisterLoading(false);
+			setLoginLoading(false);
 		}
 	};
 
