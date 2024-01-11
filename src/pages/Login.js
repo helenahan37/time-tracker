@@ -66,8 +66,7 @@ const Login = () => {
 			alert('Login successfully');
 			navigate('/reports');
 		} catch (error) {
-			toast.error(error.message);
-
+			console.log(error.message);
 			setLoginLoading(false);
 		}
 	};
