@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
+
 import { AiOutlineLogout } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 import { getAuth } from 'firebase/auth';
@@ -6,7 +8,6 @@ import app from '../firebase/config';
 import { collection, getFirestore, onSnapshot, query, where } from 'firebase/firestore';
 import Task from './Task';
 import { startOfWeek, endOfDay, startOfMonth, endOfMonth, isWithinInterval, addMilliseconds, format } from 'date-fns';
-import ErrorComponent from './ErrorComponent';
 import background from '../images/background.jpg';
 //create auth instance
 const auth = getAuth(app);
@@ -82,15 +83,23 @@ function Reports() {
 									};
 								})
 							);
+						} else {
+							// Set totals to 0 if there are no tasks
+							setThisWeekTotal(0);
+							setThisMonthTotal(0);
+							setTotalTime(0);
+
+							// reset the tasks array
+							setTasks([]);
 						}
 					});
 					return unSubscribe;
 				} else {
-					setError('Please sign in to continue');
+					toast.error('Please sign in to continue');
 					setLoading(false);
 				}
 			} catch (error) {
-				setError(error.message);
+				toast.error(error.message);
 				setLoading(false);
 			}
 		};
@@ -132,7 +141,7 @@ function Reports() {
 			link.download = 'tasks.csv';
 			link.click();
 		} catch (error) {
-			setError(error.message);
+			toast.error(error.message);
 		}
 	};
 
@@ -140,10 +149,6 @@ function Reports() {
 	const handleLogout = () => {
 		auth.signOut();
 	};
-
-	if (error) {
-		return <ErrorComponent error={error} />;
-	}
 
 	return (
 		<div

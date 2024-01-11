@@ -7,6 +7,8 @@ import Login from './pages/Login';
 import CreateTaskPage from './pages/CreateTask';
 import Reports from './components/Reports';
 import PrivateRoute from './components/PrivateRoute';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
 	return (
@@ -25,6 +27,19 @@ function App() {
 					}
 				/>
 			</Routes>
+			<ToastContainer
+				position="top-center"
+				autoClose={5000}
+				hideProgressBar={false}
+				newestOnTop={false}
+				closeOnClick
+				rtl={false}
+				pauseOnFocusLoss
+				draggable
+				pauseOnHover
+				theme="light"
+			/>
+
 			<Footer />
 		</BrowserRouter>
 	);

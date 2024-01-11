@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-
+import { toast } from 'react-toastify';
 import { BsCircleFill } from 'react-icons/bs';
 import {
 	AiOutlineEdit,
@@ -54,7 +54,7 @@ function Task({ task }) {
 				}
 			});
 		} catch (error) {
-			console.log('Error:', error.message);
+			toast.error('Error:', error.message);
 		}
 	};
 
@@ -67,7 +67,9 @@ function Task({ task }) {
 			//Update the state
 			setLocalTask((prevSate) => ({ ...prevSate, task: newTaskDescription }));
 			setIsEditing(false);
-		} catch (error) {}
+		} catch (error) {
+			toast.error('Error:', error.message);
+		}
 	};
 
 	//handle render task description
@@ -108,7 +110,7 @@ function Task({ task }) {
 				}
 			});
 		} catch (error) {
-			console.log('Error:', error.message);
+			toast.error('Error:', error.message);
 		}
 	};
 
@@ -118,7 +120,7 @@ function Task({ task }) {
 			await deleteDoc(doc(db, 'tasks', localTask.id));
 			alert('Task deleted successfully');
 		} catch (error) {
-			alert('Task deleted error' + error.message);
+			toast.error('Error:', error.message);
 		}
 	};
 

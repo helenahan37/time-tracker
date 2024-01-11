@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 import {
 	createUserWithEmailAndPassword,
 	getAuth,
@@ -35,7 +36,8 @@ const Login = () => {
 			alert('Account created successfully');
 			navigate('/reports');
 		} catch (error) {
-			setError(error.message);
+			toast.error(error.message);
+			setRegisterLoading(false);
 		}
 	};
 
@@ -49,7 +51,8 @@ const Login = () => {
 			alert('Login successfully');
 			navigate('/reports');
 		} catch (error) {
-			setError(error.message);
+			toast.error(error.message);
+			setLoginLoading(false);
 		}
 	};
 
@@ -63,7 +66,8 @@ const Login = () => {
 			alert('Login successfully');
 			navigate('/reports');
 		} catch (error) {
-			setError(error.message);
+			toast.error('Invalid user credentials');
+			setLoginLoading(false);
 		}
 	};
 
