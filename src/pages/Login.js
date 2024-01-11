@@ -67,7 +67,6 @@ const Login = () => {
 			navigate('/reports');
 		} catch (error) {
 			toast.error('Invalid user credentials');
-			setLoginLoading(false);
 		}
 	};
 
