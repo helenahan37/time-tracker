@@ -1,6 +1,6 @@
 # YOYO Task Time Tracker APP
 
-A React time-tracker application, utilizing Firebase and ReactJS, which enables users to log task duration by adjusting task statuses. This application employs Firebase as its backend to handle customer authentication and manage real-time databases, utilizing Firebase's CRUD (Create, Read, Update, Delete) operations.
+A React time-tracker application, utilizing Firebase and ReactJS, which enables users to log task duration by adjusting task statuses. This application employs Firebase as its backend to handle customer authentication and manage real-time databases, utilizing Firebase's CRUD operations.
 
 # tech track
 
