@@ -5,7 +5,7 @@ import app from '../firebase/config';
 import { getFirestore, collection, addDoc } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
-
+import createtaskimg from '../images/createtaskimg.jpg';
 //create firestore instance
 const db = getFirestore(app);
 
@@ -45,7 +45,13 @@ function CreateTaskPage() {
 	};
 
 	return (
-		<div className="bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 min-h-screen flex items-center justify-center">
+		<div
+			className="min-h-screen flex items-center justify-center"
+			style={{
+				backgroundImage: `url('${createtaskimg}')`,
+				backgroundSize: 'cover',
+				backgroundPosition: 'center',
+			}}>
 			<div className="bg-white bg-opacity-10 p-10 rounded-lg backdrop-filter backdrop-blur-lg shadow-lg max-w-md w-full">
 				<h1 className="text-4xl font-bold text-white mb-4 text-shadow flex items-center space-x-2">
 					<AiOutlineFieldTime />

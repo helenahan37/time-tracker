@@ -7,7 +7,7 @@ import { collection, getFirestore, onSnapshot, query, where } from 'firebase/fir
 import Task from './Task';
 import { startOfWeek, endOfDay, startOfMonth, endOfMonth, isWithinInterval, addMilliseconds, format } from 'date-fns';
 import ErrorComponent from './ErrorComponent';
-
+import background from '../images/background.jpg';
 //create auth instance
 const auth = getAuth(app);
 //create database instance
@@ -146,7 +146,14 @@ function Reports() {
 	}
 
 	return (
-		<div className="min-h-screen bg-gradient-to-r from-green-400 to-blue-500">
+		<div
+			className="min-h-screen"
+			style={{
+				backgroundImage: `url('${background}')`,
+				backgroundSize: 'cover',
+				backgroundPosition: 'center',
+			}}>
+			{' '}
 			<div className="container mx-auto px-4 py-10">
 				<header className="flex justify-between py-6">
 					<h1 className="text-4xl font-bold text-white">Time Tracker</h1>
