@@ -37,6 +37,7 @@ const Login = () => {
 			navigate('/reports');
 		} catch (error) {
 			toast.error(error.message);
+			setRegisterLoading(false);
 		}
 	};
 
@@ -51,6 +52,7 @@ const Login = () => {
 			navigate('/reports');
 		} catch (error) {
 			toast.error(error.message);
+			setLoginLoading(false);
 		}
 	};
 
@@ -65,6 +67,7 @@ const Login = () => {
 			navigate('/reports');
 		} catch (error) {
 			toast.error('Invalid user credentials');
+			setLoginLoading(false);
 		}
 	};
 
