@@ -1,12 +1,12 @@
 import { initializeApp } from 'firebase/app';
 
 const firebaseConfig = {
-	apiKey: 'AIzaSyA7fVurjAA41CH30JktscU2Qy6lrdAEAVU',
-	authDomain: 'yoyo-time-tracker.firebaseapp.com',
-	projectId: 'yoyo-time-tracker',
-	storageBucket: 'yoyo-time-tracker.appspot.com',
-	messagingSenderId: '85060388909',
-	appId: '1:85060388909:web:2bf5873fa3311360fd10a4',
+	apiKey: 'AIzaSyD5TGfYZElzGcAn57IGwhEh5PIWELPCDa4',
+	authDomain: 'yoyo-time-tracker-703e9.firebaseapp.com',
+	projectId: 'yoyo-time-tracker-703e9',
+	storageBucket: 'yoyo-time-tracker-703e9.appspot.com',
+	messagingSenderId: '669820145776',
+	appId: '1:669820145776:web:24ea159cd2b1c670f0e4b5',
 };
 
 // Initialize Firebase
