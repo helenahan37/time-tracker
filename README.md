@@ -10,7 +10,7 @@ A React time-tracker application, utilizing Firebase and ReactJS, which enables 
 
 1. Styling: tailwind css
 2. Navigation: react-router dom
-3. Backend: Firebase
+3. Backend: Node.js and Firebase
 4. Frontend: ReactJS
 
 # Key Features:
