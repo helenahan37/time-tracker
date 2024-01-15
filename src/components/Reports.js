@@ -112,14 +112,8 @@ function Reports() {
 		};
 	}, []);
 
-	const formatTime = (time) => {
-		// Subtract 10 hours (36,000,000 milliseconds) from the time
-		const adjustedTime = time - 36000000;
-
-		// Create a new Date object with the adjusted time
-		const date = addMilliseconds(new Date(0), adjustedTime);
-
-		// Format the date as a time string in 'HH:mm:ss' format
+	const formatTime = (timeInMillis) => {
+		const date = addMilliseconds(new Date(0), timeInMillis);
 		return format(date, 'HH:mm:ss');
 	};
 	//export data
